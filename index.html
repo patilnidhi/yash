@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="decorations"></div>
+
+    <div id="popup1" class="popup">
+        <p>✨ I have something for you... ✨</p>
+    </div>
+
+    <div id="popup2" class="popup">
+        <p>🎉 Surprise! Wishing you a very Happy Birthday! 🎂</p>
+        <button onclick="redirectToNextPage()">Next</button>
+    </div>
+
+    <div id="confetti-container"></div>
+    <div id="sprinkles-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const popup1 = document.getElementById("popup1");
+            const popup2 = document.getElementById("popup2");
+            const decorationContainer = document.querySelector(".decorations");
+            const confettiContainer = document.getElementById("confetti-container");
+            const sprinklesContainer = document.getElementById("sprinkles-container");
+    
+            setTimeout(() => {
+                popup1.style.display = "block";
+            }, 1000);
+    
+            setTimeout(() => {
+                popup1.style.display = "none";
+                popup2.style.display = "block";
+    
+                setTimeout(() => {
+                    startBalloons();
+                    showConfetti();
+                    startSprinkles();
+                }, 1000);
+            }, 2500);
+    
+            function startBalloons() {
+                function createBalloon(color, leftPosition, duration) {
+                    let balloon = document.createElement("div");
+                    balloon.classList.add("balloon");
+                    balloon.style.background = color;
+                    balloon.style.left = leftPosition;
+                    balloon.style.animationDuration = duration;
+    
+                    let string = document.createElement("div");
+                    string.classList.add("string");
+    
+                    balloon.appendChild(string);
+                    decorationContainer.appendChild(balloon);
+                }
+    
+                createBalloon("red", "10%", "6s");
+                createBalloon("blue", "30%", "5s");
+                createBalloon("green", "50%", "7s");
+                createBalloon("yellow", "70%", "6s");
+                createBalloon("purple", "90%", "5s");
+            }
+    
+            function showConfetti() {
+                confettiContainer.style.opacity = "1";
+                confettiContainer.style.bottom = "50%";
+                confettiContainer.style.animation = "confetti-burst 1s ease-out forwards";
+            }
+    
+            function startSprinkles() {
+                const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink"];
+                for (let i = 0; i < 30; i++) {
+                    let sprinkle = document.createElement("div");
+                    sprinkle.classList.add("sprinkle");
+                    sprinkle.style.left = Math.random() * 100 + "%";
+                    sprinkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    sprinkle.style.animationDuration = Math.random() * 3 + 2 + "s";
+                    sprinklesContainer.appendChild(sprinkle);
+                }
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            text-align: center;
+            overflow: hidden;
+            font-size: 16px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            width: 300px;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            background: #ff4081;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .decorations, #sprinkles-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 70px;
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .string {
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background: black;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sprinkle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            top: -10px;
+            animation: sprinkle-fall linear infinite;
+        }
+
+        @keyframes sprinkle-fall {
+            0% { transform: translateY(-10px); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+
+        #confetti-container {
+            position: fixed;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            opacity: 0;
+        }
+    </style>
+</body>
+</html>
